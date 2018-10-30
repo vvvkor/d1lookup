@@ -17,5 +17,8 @@
     "autocomplete"
   ],
   "author": "Vadim Korolev <vadimkor@yandex.ru> (https://github.com/vvvkor)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "d1css": "^1.1"
+  }
 }
