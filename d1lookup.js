@@ -133,7 +133,11 @@ main = new(function() {
   }
   
   this.key = function(n, e){
-    if(e.keyCode == 27) n.vCap.value = n.vLabel;
+    if(e.keyCode == 27){
+      n.vCap.value = n.vLabel;
+      if(n.vWait) clearTimeout(n.vWait);
+      this.closeList();
+    }
     else if(e.keyCode == 40 && !this.shownList()) this.planFind(n, 1);
     else if(e.keyCode == 38 || e.keyCode == 40) this.hiliteNext(n, e.keyCode == 38);
     else if(e.keyCode == 13) this.choose(n, n.vCur);
