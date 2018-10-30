@@ -1,0 +1,21 @@
+{
+  "name": "d1lookup",
+  "version": "1.0.0",
+  "description": "Autocomplete lookups with data from XHTTP request",
+  "main": "d1lookup.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vvvkor/d1lookup"
+  },
+  "keywords": [
+    "xhttp",
+    "ajax",
+    "lookup",
+    "autocomplete"
+  ],
+  "author": "Vadim Korolev <vadimkor@yandex.ru> (https://github.com/vvvkor)",
+  "license": "MIT"
+}
