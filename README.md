@@ -50,7 +50,7 @@ Default: ``"data-url"``
 
 ### listId
 
-``Id`` of popup list element containing found autocomplete options.
+``Id`` of popup list element containing found autocomplete options.  
 Default: ``"lookup-list"``
 
 ### wait
