@@ -1,7 +1,7 @@
 # d1lookup
 
 Add-on for [d1](https://github.com/vvvkor/d1).  
-Autocomplete lookups with data from XHTTP request.
+Autocomplete lookups with data from XHTTP request.  
 [Demo & docs](http://vadimkor.ru/projects/d1#lookup)
 
 ## Install
@@ -19,13 +19,16 @@ d1lookup.init(options);
 
 In your markup:
 * Add ``data-lookup`` attribute with value that is data source URL to load autocomplete data. URL should have ``{q}`` substring that will be replaced with search string.
-* Add ``data-label`` attribute with default label.
+* Add ``data-label`` attribute with label for initial value.
 * Add ``data-url`` attribute to add link to selected resource. URL should have ``{id}`` substring that will be replaced with identifier of selected resource.
 
 ## Example
 
 ```
-<input type="text" name="id" data-lookup="?table=users&q={q}" data-label="User One" data-url="/users/{id}" value="1">
+<input type="text" name="id" value="1"
+	data-lookup="?table=users&q={q}"
+	data-label="User One"
+	data-url="/users/{id}">
 ```
 
 ## Options
@@ -37,7 +40,7 @@ Default: ``"data-lookup"``
 
 ### attrLabel
 
-Default label (label of initial input value).  
+Label for initial input value.  
 Default: ``"data-label"``
 
 ### attrUrl
