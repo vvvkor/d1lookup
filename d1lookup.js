@@ -31,13 +31,13 @@ main = new(function() {
     wrap.style.position = 'relative';
     wrap.appendChild(n);
     n.classList.add('bg-n');
-    n.type = 'hidden';
+    //n.type = 'hidden';
     n.vLabel = n.getAttribute('data-caption') || '';//@@
     var m = d1.ins('input', '', {type: 'text', value: n.vLabel}, wrap);
     n.vCap = m;
     m.classList.add('unesc');
     m.autocomplete = 'off';
-    d1.ins('', '&nbsp;', {}, wrap);
+    d1.ins('', ' ', {}, wrap);
     var i = wrap.appendChild(d1.svg(this.opt.icon[0],'text-n',this.opt.icon[1]));
     i.style.cursor = 'pointer';
     m.addEventListener('input', this.planFind.bind(this, n, 0), false);
@@ -46,14 +46,15 @@ main = new(function() {
   }
   
   this.planFind = function(n, now){
-    this.seq++;
-    n.vSeq = this.seq;
-    if(n.vWait) clearTimeout(n.vWait);
     if(n.vCap.value===''){
-      n.value = n.vLabel = '';
-      this.closeList();
+      this.fix(n, '', '');
     }
-    else n.vWait = setTimeout(this.find.bind(this, n), now ? 0 : this.opt.wait);
+    else{
+      this.seq++;
+      n.vSeq = this.seq;
+      if(n.vWait) clearTimeout(n.vWait);
+      n.vWait = setTimeout(this.find.bind(this, n), now ? 0 : this.opt.wait);
+    }
   }
   
   this.find = function(n){
@@ -67,21 +68,20 @@ main = new(function() {
     /*
     var ref = this;
     var seq = this.seq;
-    setTimeout(function(){ d1.ajax(u, null, ref.list.bind(ref, seq, n)); }, 1000)
+    setTimeout(function(){ d1.ajax(u, null, ref.list.bind(ref, seq, n)); }, 2000)
     */
   }
   
   this.list = function(seq, n, req, nn, e){
     var d = JSON.parse(req.responseText);
     if(seq==n.vSeq) this.openList(n, d.data, e);
+    //console.log(seq==n.vSeq ? 'use' : 'skip', seq, n.vSeq);
   }
 
   this.openList = function(n, d, e){
     e.stopPropagation();
     this.closeList();
-    //n.parentNode.insertBefore(this.win, n.nextSibling);
     n.parentNode.appendChild(this.win);
-    //this.win.style.display = 'block';
     this.win.classList.add('js-show');
     this.win.style.top = (n.vCap.offsetTop + n.vCap.offsetHeight) + 'px';
     this.win.style.left = (n.vCap.offsetLeft) + 'px';
@@ -127,20 +127,23 @@ main = new(function() {
   
   this.choose = function(n, a, e){
     if(e) e.preventDefault();
-    n.value = a.hash.substr(1);
-    n.vLabel = n.vCap.value = a.firstChild.textContent;
+    this.fix(n, a.hash.substr(1), a.firstChild.textContent);
+  }
+  
+  this.fix = function(n, v, c){
+    n.vSeq = 0;
+    if(n.vWait) clearTimeout(n.vWait);
+    n.value = v;
+    n.vLabel = n.vCap.value = c;
     this.closeList();
   }
   
   this.key = function(n, e){
-    if(e.keyCode == 27){
-      n.vCap.value = n.vLabel;
-      if(n.vWait) clearTimeout(n.vWait);
-      this.closeList();
-    }
+    if(e.keyCode == 27) this.fix(n, n.value, n.vLabel);
     else if(e.keyCode == 40 && !this.shownList()) this.planFind(n, 1);
     else if(e.keyCode == 38 || e.keyCode == 40) this.hiliteNext(n, e.keyCode == 38);
-    else if(e.keyCode == 13) this.choose(n, n.vCur);
+    //else if(e.keyCode == 13) this.choose(n, n.vCur);
+    else if(e.keyCode == 13 && n.vCur) n.vCur.click();
   }
   
   this.go = function(n, e){
