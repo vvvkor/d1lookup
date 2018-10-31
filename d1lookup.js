@@ -6,7 +6,8 @@ main = new(function() {
 
   this.opt = {
     attrLookup: 'data-lookup',
-    attrCaption: 'data-caption',
+    attrLabel: 'data-label',
+    attrUrl: 'data-url',
     listId: 'lookup-list',
     wait: 300,
     icon: ['edit','&rarr;']
@@ -31,8 +32,8 @@ main = new(function() {
     wrap.style.position = 'relative';
     wrap.appendChild(n);
     n.classList.add('bg-n');
-    //n.type = 'hidden';
-    n.vLabel = n.getAttribute('data-caption') || '';//@@
+    n.type = 'hidden';
+    n.vLabel = n.getAttribute(this.opt.attrLabel) || n.value || '';//@@
     var m = d1.ins('input', '', {type: 'text', value: n.vLabel}, wrap);
     n.vCap = m;
     m.classList.add('unesc');
@@ -60,10 +61,10 @@ main = new(function() {
   this.find = function(n){
     var u = n.getAttribute(this.opt.attrLookup);
     u = d1.arg(u, {
-        value: n.vCap.value,
+        //value: n.vCap.value,
         seq: this.seq,
         t: (new Date()).getTime()
-    });
+    }).replace(/\{q\}/, n.vCap.value);
     d1.ajax(u, null, this.list.bind(this, this.seq, n));
     /*
     var ref = this;
@@ -148,7 +149,7 @@ main = new(function() {
   
   this.go = function(n, e){
     e.preventDefault();
-    var u = n.getAttribute('data-url');
+    var u = n.getAttribute(this.opt.attrUrl);
     if(n.value.length>0 && u) location.href = u.replace(/\{id\}/, n.value);
   }
 
