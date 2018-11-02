@@ -5,12 +5,13 @@ main = new(function() {
   "use strict";
 
   this.opt = {
-    attrLookup: 'data-lookup',
     attrLabel: 'data-label',
+    attrLookup: 'data-lookup',
     attrUrl: 'data-url',
-    listId: 'lookup-list',
-    wait: 300,
-    icon: ['edit','&rarr;']
+    icon: ['edit','&rarr;'],
+    idList: 'lookup-list',
+    max: 10,
+    wait: 300
   };
   
   this.seq = 0;
@@ -20,7 +21,7 @@ main = new(function() {
     var i;
     for(i in opt) this.opt[i] = opt[i];
     
-    this.win = d1.ins('ul', '', {id: this.opt.listId, className: 'hide toggle js-control esc'});
+    this.win = d1.ins('ul', '', {id: this.opt.idList, className: 'hide toggle js-control esc'});
     document.querySelector('body').appendChild(this.win);
 
     var t = document.querySelectorAll('[' + this.opt.attrLookup + ']');
@@ -99,7 +100,7 @@ main = new(function() {
   
   this.build = function(n, d){
     while(this.win.firstChild) this.win.removeChild(this.win.firstChild);
-    var w, a;
+    var w, a, j = 0;
     for(var i in d){
       w = d1.ins('li', '', {}, this.win);
       a = d1.ins('a', '', {href: '#' + d[i].value, className: '-pad -hover'}, w);
@@ -109,6 +110,8 @@ main = new(function() {
         d1.ins('small', d[i].info, {className: 'text-n'}, a);
       }
       a.addEventListener('click', this.choose.bind(this, n, a), false);
+      j++;
+      if(j >= this.opt.max) break;
     }
     if(this.win.firstChild) this.hilite(n, this.win.firstChild.firstChild);
   }

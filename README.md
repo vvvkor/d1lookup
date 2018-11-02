@@ -33,30 +33,20 @@ In your markup:
 
 ## Options
 
-### attrLookup
-
-Input attribute, containing data source URL with ``{q}`` substring.  
-Default: ``"data-lookup"``
-
 ### attrLabel
 
 Label for initial input value.  
 Default: ``"data-label"``
 
+### attrLookup
+
+Input attribute, containing data source URL with ``{q}`` substring.  
+Default: ``"data-lookup"``
+
 ### attrUrl
 
 Link to selected resource with ``{id}`` substring.  
 Default: ``"data-url"``
-
-### listId
-
-``Id`` of popup list element containing found autocomplete options.  
-Default: ``"lookup-list"``
-
-### wait
-
-Timeout before actual request after search string input, ms.  
-Default: ``300``
 
 ### icon
 
@@ -66,6 +56,21 @@ Presented as array of 2 elements:
  2. alternative text to show instead of icon if icon symbol is not set or is not found on page
 
 Default: ``['edit','&rarr;']``
+
+### listId
+
+``Id`` of popup list element containing found autocomplete options.  
+Default: ``"lookup-list"``
+
+### max
+
+Maximum options to show.  
+Default: ``10``
+
+### wait
+
+Timeout before actual request after search string input, ms.  
+Default: ``300``
 
 ## Browser Support
 
