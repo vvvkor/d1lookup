@@ -51,11 +51,7 @@ Default: ``"data-url"``
 ### icon
 
 Icon to show after input as a link to selected resource.  
-Presented as array of 2 elements:
- 1. ``id`` of SVG ``symbol`` to use as the icon, or empty string
- 2. alternative text to show instead of icon if icon symbol is not set or is not found on page
-
-Default: ``['edit','&rarr;']``
+Default: ``"edit"``
 
 ### listId
 

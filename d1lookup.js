@@ -1,3 +1,5 @@
+//uses d1
+
 //a.lookup[data-table]
 (function(){
 main = new(function() {
@@ -8,7 +10,7 @@ main = new(function() {
     attrLabel: 'data-label',
     attrLookup: 'data-lookup',
     attrUrl: 'data-url',
-    icon: ['edit','&rarr;'],
+    icon: 'edit',
     idList: 'lookup-list',
     max: 10,
     wait: 300
@@ -16,12 +18,13 @@ main = new(function() {
   
   this.seq = 0;
   this.win = null;
+  this.inPop = 1;
 
   this.init = function(opt) {
     var i;
     for(i in opt) this.opt[i] = opt[i];
-    
-    this.win = d1.ins('ul', '', {id: this.opt.idList, className: 'hide toggle js-control esc'});
+    this.win = d1.ins('div', '', {id: this.opt.idList, className: 'toggle'});
+    d1.setState(this.win, 0);
     document.querySelector('body').appendChild(this.win);
 
     var t = document.querySelectorAll('[' + this.opt.attrLookup + ']');
@@ -29,22 +32,25 @@ main = new(function() {
   }
 
   this.prepare = function(n) {
-    var wrap = d1.ins('div','',{className:'nav'},n,1);
-    wrap.style.position = 'relative';
-    wrap.appendChild(n);
+    var pop = d1.ins('div','',{className:'pop'});
+    n.parentNode.insertBefore(pop, n);
+    if(!this.inPop) pop.style.verticalAlign = 'bottom';
     n.classList.add('bg-n');
     n.type = 'hidden';
     n.vLabel = n.getAttribute(this.opt.attrLabel) || n.value || '';//@@
-    var m = d1.ins('input', '', {type: 'text', value: n.vLabel}, wrap);
-    n.vCap = m;
-    m.classList.add('unesc');
+    var m = d1.ins('input', '', {type: 'text', value: n.vLabel, className:'input-lookup'}, pop, this.inPop ? 0 : 1);
     m.autocomplete = 'off';
-    d1.ins('', ' ', {}, wrap);
-    var i = wrap.appendChild(d1.svg(this.opt.icon[0],'text-n',this.opt.icon[1]));
+    var i = d1.ins('a', d1.i(this.opt.icon), {}, n, 1);
     i.style.cursor = 'pointer';
+    d1.ins('', ' ', {}, n, 1);
+    this.setHandlers(n, m, i);
+  }
+  
+  this.setHandlers = function(n, m, i) {
+    n.vCap = m;
     m.addEventListener('input', this.planFind.bind(this, n, 0), false);
     m.addEventListener('keydown', this.key.bind(this, n), false);
-    i.addEventListener('click', this.go.bind(this, n), false);
+    if(i) i.addEventListener('click', this.go.bind(this, n), false);
   }
   
   this.planFind = function(n, now){
@@ -64,14 +70,9 @@ main = new(function() {
     u = d1.arg(u, {
         //value: n.vCap.value,
         seq: this.seq,
-        t: (new Date()).getTime()
+        time: (new Date()).getTime()
     }).replace(/\{q\}/, n.vCap.value);
     d1.ajax(u, null, this.list.bind(this, this.seq, n));
-    /*
-    var ref = this;
-    var seq = this.seq;
-    setTimeout(function(){ d1.ajax(u, null, ref.list.bind(ref, seq, n)); }, 2000)
-    */
   }
   
   this.list = function(seq, n, req, nn, e){
@@ -83,26 +84,24 @@ main = new(function() {
   this.openList = function(n, d, e){
     e.stopPropagation();
     this.closeList();
-    n.parentNode.appendChild(this.win);
-    this.win.classList.add('js-show');
-    this.win.style.top = (n.vCap.offsetTop + n.vCap.offsetHeight) + 'px';
-    this.win.style.left = (n.vCap.offsetLeft) + 'px';
+    var pop = this.inPop ? n.previousSibling : n.vCap.previousSibling;
+    pop.appendChild(this.win);//.pop
+    d1.setState(this.win, 1);
+    this.win.style.top = (this.inPop ? (n.vCap.offsetTop + n.vCap.offsetHeight) : pop.offsetHeight) + 'px';
+    this.win.style.left = '0';
     this.build(n, d);
   }
   
   this.closeList = function(){
-    this.win.classList.remove('js-show');
-  }
-  
-  this.shownList = function(){
-    return this.win.classList.contains('js-show');
+    d1.setState(this.win, 0);
   }
   
   this.build = function(n, d){
     while(this.win.firstChild) this.win.removeChild(this.win.firstChild);
+    var ul = d1.ins('ul', '', {id: this.opt.idList, className: 'nav l'}, this.win);
     var w, a, j = 0;
     for(var i in d){
-      w = d1.ins('li', '', {}, this.win);
+      w = d1.ins('li', '', {}, ul);
       a = d1.ins('a', '', {href: '#' + d[i].value, className: '-pad -hover'}, w);
       d1.ins('span', d[i].label, {}, a);
       if(d[i].info){
@@ -113,20 +112,22 @@ main = new(function() {
       j++;
       if(j >= this.opt.max) break;
     }
-    if(this.win.firstChild) this.hilite(n, this.win.firstChild.firstChild);
+    if(ul.firstChild) this.hilite(n, ul.firstChild.firstChild);
   }
   
   this.hilite = function(n, a){
-    if(n.vCur) n.vCur.classList.remove('act');
-    a.classList.add('act');
+    if(n.vCur) n.vCur.classList.remove(d1.opt.cAct);
+    a.classList.add(d1.opt.cAct);
     n.vCur = a;
   }
   
   this.hiliteNext = function(n, prev){
-    var a = n.vCur.parentNode[prev ? 'previousSibling' : 'nextSibling'];
-    if(!a) a = n.vCur.parentNode.parentNode[prev ? 'lastChild' : 'firstChild'];
-    a = a.firstChild;
-    this.hilite(n, a);
+    if(n.vCur) {
+      var a = n.vCur.parentNode[prev ? 'previousSibling' : 'nextSibling'];
+      if(!a) a = n.vCur.parentNode.parentNode[prev ? 'lastChild' : 'firstChild'];
+      a = a.firstChild;
+      this.hilite(n, a);
+    }
   }
   
   this.choose = function(n, a, e){
@@ -144,10 +145,13 @@ main = new(function() {
   
   this.key = function(n, e){
     if(e.keyCode == 27) this.fix(n, n.value, n.vLabel);
-    else if(e.keyCode == 40 && !this.shownList()) this.planFind(n, 1);
+    else if(e.keyCode == 40 && !d1.getState(this.win)) this.planFind(n, 1);
     else if(e.keyCode == 38 || e.keyCode == 40) this.hiliteNext(n, e.keyCode == 38);
     //else if(e.keyCode == 13) this.choose(n, n.vCur);
-    else if(e.keyCode == 13 && n.vCur) n.vCur.click();
+    else if(e.keyCode == 13 && n.vCur){
+			if(d1.getState(this.win)) e.preventDefault();
+			n.vCur.click();
+		}
   }
   
   this.go = function(n, e){
