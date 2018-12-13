@@ -1,4 +1,5 @@
-//uses d1
+/*! d1lookup https://github.com/vvvkor/d1lookup */
+/* Autocomplete lookups with data from XHTTP request */
 
 //a.lookup[data-table]
 (function(){
