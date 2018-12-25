@@ -2,6 +2,7 @@
 /* Autocomplete lookups with data from XHTTP request */
 
 //a.lookup[data-table]
+if(typeof module !== "undefined") var d1 = require('d1css');
 (function(){
 main = new(function() {
 
