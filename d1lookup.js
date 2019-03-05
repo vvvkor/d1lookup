@@ -104,8 +104,8 @@ main = new(function() {
     var w, a, j = 0;
     for(var i in d){
       w = d1.ins('li', '', {}, ul);
-      a = d1.ins('a', '', {href: '#' + d[i].value, className: '-pad -hover'}, w);
-      d1.ins('span', d[i].label, {}, a);
+      a = d1.ins('a', '', {href: '#' + d[i].id, className: '-pad -hover'}, w);
+      d1.ins('span', d[i].nm, {}, a);
       if(d[i].info){
         d1.ins('br', '', {}, a);
         d1.ins('small', d[i].info, {className: 'text-n'}, a);
@@ -134,6 +134,7 @@ main = new(function() {
   
   this.choose = function(n, a, e){
     if(e) e.preventDefault();
+    n.vCur = a;
     this.fix(n, a.hash.substr(1), a.firstChild.textContent);
   }
   
@@ -142,6 +143,7 @@ main = new(function() {
     if(n.vWait) clearTimeout(n.vWait);
     n.value = v;
     n.vLabel = n.vCap.value = c;
+    if(typeof(Event) === 'function') n.dispatchEvent(new Event('input'));//-ie
     this.closeList();
   }
   
