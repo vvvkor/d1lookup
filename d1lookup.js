@@ -42,8 +42,11 @@ main = new(function() {
     n.vLabel = n.getAttribute(this.opt.attrLabel) || n.value || '';//@@
     var m = d1.ins('input', '', {type: 'text', value: n.vLabel, className:'input-lookup'}, pop, this.inPop ? 0 : 1);
     m.autocomplete = 'off';
-    var i = d1.ins('a', d1.i(this.opt.icon), {}, n, 1);
-    i.style.cursor = 'pointer';
+    var i = null;
+    if(n.getAttribute(this.opt.attrUrl)){
+      i = d1.ins('a', d1.i(this.opt.icon), {}, n, 1);
+      i.style.cursor = 'pointer';
+    }
     d1.ins('', ' ', {}, n, 1);
     this.setHandlers(n, m, i);
   }
