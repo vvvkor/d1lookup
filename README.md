@@ -2,7 +2,7 @@
 
 Add-on for [d1](https://github.com/vvvkor/d1).  
 Autocomplete lookups with data from XHTTP request.  
-[Demo & docs](http://vadimkor.ru/projects/d1#lookup)
+[Demo & docs](https://vvvkor.github.io/d1#lookup)
 
 ## Install
 
