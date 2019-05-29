@@ -167,6 +167,8 @@ main = new(function() {
     if(n.value.length>0 && u) location.href = u.replace(/\{id\}/, n.value);
   }
 
+  d1.plug(this);
+
 })();
 
   if(typeof module !== "undefined") module.exports = main;
