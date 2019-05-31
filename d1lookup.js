@@ -8,6 +8,8 @@ main = new(function() {
 
   "use strict";
 
+  this.name = 'lookup';
+
   this.opt = {
     attrLabel: 'data-label',
     attrLookup: 'data-lookup',
