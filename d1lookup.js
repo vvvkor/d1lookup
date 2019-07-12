@@ -43,6 +43,10 @@ main = new(function() {
     n.type = 'hidden';
     n.vLabel = n.getAttribute(this.opt.attrLabel) || n.value || '';//@@
     var m = d1.ins('input', '', {type: 'text', value: n.vLabel, className:'input-lookup'}, pop, this.inPop ? 0 : 1);
+    if(n.id) {
+      m.id = 'lookup-' + n.id;
+      d1.b('', '[for="' + n.id + '"]', '', function(lbl, e) { lbl.htmlFor = m.id; });
+    }
     m.autocomplete = 'off';
     var i = null;
     if(n.getAttribute(this.opt.attrUrl)){
