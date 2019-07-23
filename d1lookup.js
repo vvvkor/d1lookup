@@ -109,7 +109,7 @@ main = new(function() {
   
   this.build = function(n, d){
     while(this.win.firstChild) this.win.removeChild(this.win.firstChild);
-    var ul = d1.ins('ul', '', {id: this.opt.idList, className: 'nav l'}, this.win);
+    var ul = d1.ins('ul', '', {className: 'nav l'}, this.win);
     var w, a, j = 0;
     for(var i in d){
       w = d1.ins('li', '', {}, ul);
