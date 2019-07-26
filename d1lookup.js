@@ -45,6 +45,7 @@ main = new(function() {
     var m = d1.ins('input', '', {type: 'text', value: n.vLabel, className:'input-lookup'}, pop, this.inPop ? 0 : 1);
     if(n.id) {
       m.id = 'lookup-' + n.id;
+      if(n.title) m.title = n.title;
       d1.b('', '[for="' + n.id + '"]', '', function(lbl, e) { lbl.htmlFor = m.id; });
     }
     m.autocomplete = 'off';
