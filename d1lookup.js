@@ -48,6 +48,7 @@ main = new(function() {
       if(n.title) m.title = n.title;
       d1.b('', '[for="' + n.id + '"]', '', function(lbl, e) { lbl.htmlFor = m.id; });
     }
+    if(n.placeholder) m.placeholder = n.placeholder;
     m.autocomplete = 'off';
     var i = null;
     if(n.getAttribute(this.opt.attrUrl)){
