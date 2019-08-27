@@ -21,6 +21,7 @@ In your markup:
 * Add ``data-lookup`` attribute with value that is data source URL to load autocomplete data. URL should have ``{q}`` substring that will be replaced with search string.
 * Add ``data-label`` attribute with label for initial value.
 * Add ``data-url`` attribute to add link to selected resource. URL should have ``{id}`` substring that will be replaced with identifier of selected resource.
+* Add ``data-goto`` attribute to go to specified URL on item selection. URL may have ``{id}`` substring that will be replaced with identifier of selected resource.
 
 ## Example
 
@@ -33,9 +34,14 @@ In your markup:
 
 ## Options
 
+### attrGoto
+
+Input attribute, containing URL to visit on item selection, with optional ``{id}`` substring.  
+Default: ``"data-goto"``
+
 ### attrLabel
 
-Label for initial input value.  
+Input attribute, containing label for initial input value.  
 Default: ``"data-label"``
 
 ### attrLookup
@@ -45,7 +51,7 @@ Default: ``"data-lookup"``
 
 ### attrUrl
 
-Link to selected resource with ``{id}`` substring.  
+Input attribute, containing link to selected resource with ``{id}`` substring.  
 Default: ``"data-url"``
 
 ### icon

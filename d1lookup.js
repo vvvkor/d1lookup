@@ -14,6 +14,7 @@ main = new(function() {
     attrLabel: 'data-label',
     attrLookup: 'data-lookup',
     attrUrl: 'data-url',
+    attrGoto: 'data-goto',
     icon: 'edit',
     idList: 'lookup-list',
     max: 10,
@@ -113,15 +114,16 @@ main = new(function() {
     while(this.win.firstChild) this.win.removeChild(this.win.firstChild);
     var ul = d1.ins('ul', '', {className: 'nav let'}, this.win);
     var w, a, j = 0;
+    var go = n.getAttribute(this.opt.attrGoto);
     for(var i in d){
       w = d1.ins('li', '', {}, ul);
-      a = d1.ins('a', '', {href: '#' + d[i].id, className: '-pad -hover'}, w);
+      a = d1.ins('a', '', {href: go ? go.replace(/\{id\}/, d[i].id) : '#' + d[i].id, className: '-pad -hover'}, w);
       d1.ins('span', d[i].nm, {}, a);
       if(d[i].info){
         d1.ins('br', '', {}, a);
         d1.ins('small', d[i].info, {className: 'text-n'}, a);
       }
-      a.addEventListener('click', this.choose.bind(this, n, a), false);
+      if(!go) a.addEventListener('click', this.choose.bind(this, n, a), false);
       j++;
       if(j >= this.opt.max) break;
     }
