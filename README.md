@@ -29,7 +29,8 @@ In your markup:
 <input type="text" name="id" value="1"
 	data-lookup="?table=users&q={q}"
 	data-label="User One"
-	data-url="/users/{id}">
+	data-url="/users/{id}"
+	data-goto="/users/{id}">
 ```
 
 ## Options
