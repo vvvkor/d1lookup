@@ -34,7 +34,8 @@ main = new(function() {
 
     var t = document.querySelectorAll('[' + this.opt.attrLookup + ']');
     for (i = 0; i < t.length; i++) this.prepare(t[i]);
-  }
+    d1.b('','[data-chain]','change',this.updateChain.bind(this));
+    d1.b('','[data-chain]','',this.prepareChain.bind(this));   }
 
   this.prepare = function(n) {
     var pop = d1.ins('div','',{className:'pop'});
@@ -177,6 +178,39 @@ main = new(function() {
     if(n.value.length>0 && u) location.href = u.replace(/\{id\}/, n.value);
   }
 
+  // update chain
+  
+  this.updateChain = function(n,e){
+    var m = d1.q(n.getAttribute('data-chain'),0);
+    if(m){
+      if(!n.value) this.prepareChain(n);
+      else{
+        var u = m.getAttribute('data-filter').replace(/\{q\}/,n.value);
+        d1.ajax(u,m,this.onChainData.bind(this));
+      }
+    }
+  }
+  
+  this.onChainData = function(req,n,e){
+    var u = JSON.parse(req.responseText);
+    this.cleanItem(n);
+    if(u.data) for(var i=0;i<u.data.length;i++) d1.ins('option',u.data[i].nm,{value:u.data[i].id},n);
+  }
+  
+  this.prepareChain = function(n){
+    if(n.value) this.updateChain(n);
+    else{
+      var m = d1.q(n.getAttribute('data-chain'),0);
+      if(m) this.cleanItem(m,1);
+    }
+  }
+  
+  this.cleanItem = function(n,ph){
+    while(n.firstChild) n.removeChild(n.firstChild);
+    var z = n.getAttribute('data-placeholder') || (ph ? '-' : '');
+    if(z) d1.ins('option',z,{id:0},n);
+  }
+  
   d1.plug(this);
 
 })();
