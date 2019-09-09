@@ -20,6 +20,7 @@ d1lookup.init(options);
 In your markup:
 * Add ``data-lookup`` attribute with value that is data source URL to load autocomplete data. URL should have ``{q}`` substring that will be replaced with search string.
 * Add ``data-label`` attribute with label for initial value.
+* Add ``data-cache`` attribute to set maximum cached responses from data source. By default cache is not used.
 * Add ``data-url`` attribute to add link to selected resource. URL should have ``{id}`` substring that will be replaced with identifier of selected resource.
 * Add ``data-goto`` attribute to go to specified URL on item selection. URL may have ``{id}`` substring that will be replaced with identifier of selected resource.
 
@@ -29,6 +30,7 @@ In your markup:
 <input type="text" name="id" value="1"
 	data-lookup="?table=users&q={q}"
 	data-label="User One"
+	data-cache="10"
 	data-url="/users/{id}"
 	data-goto="/users/{id}">
 ```
