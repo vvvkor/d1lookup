@@ -47,7 +47,10 @@ main = new(function() {
     n.vLabel = n.getAttribute(this.opt.attrLabel) || n.value || '';//@@
     var m = d1.ins('input', '', {type: 'text', value: n.vLabel, className:'input-lookup'}, pop, this.inPop ? 0 : 1);
     if(n.id) {
+      m.required = n.required;
+      n.required = false;
       m.id = 'lookup-' + n.id;
+      m.name = 'lookup-' + n.name;
       if(n.title) m.title = n.title;
       d1.b('', '[for="' + n.id + '"]', '', function(lbl, e) { lbl.htmlFor = m.id; });
     }
@@ -89,6 +92,7 @@ main = new(function() {
         seq: this.seq,
         time: (new Date()).getTime()
     }).replace(/\{q\}/, n.vCap.value);
+    n.vCur = null;
     d1.ajax(u, null, this.list.bind(this, n.vCap.value, this.seq, n));
   }
   
@@ -156,6 +160,7 @@ main = new(function() {
   }
   
   this.fix = function(n, v, c){
+    n.vCur = null;
     n.vSeq = 0;
     if(n.vWait) clearTimeout(n.vWait);
     n.value = v;
@@ -170,9 +175,9 @@ main = new(function() {
     else if(e.keyCode == 38 || e.keyCode == 40) this.hiliteNext(n, e.keyCode == 38);
     //else if(e.keyCode == 13) this.choose(n, n.vCur);
     else if(e.keyCode == 13 && n.vCur){
-			if(d1.getState(this.win)) e.preventDefault();
-			n.vCur.click();
-		}
+      if(d1.getState(this.win)) e.preventDefault();
+      n.vCur.click();
+    }
   }
   
   this.go = function(n, e){
