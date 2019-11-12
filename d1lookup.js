@@ -43,14 +43,15 @@ main = new(function() {
     n.parentNode.insertBefore(pop, n);
     if(!this.inPop) pop.style.verticalAlign = 'bottom';
     n.classList.add('bg-n');
-    n.type = 'hidden';
+    n.classList.add('hide');
+    //n.type = 'hidden';
     n.vLabel = n.getAttribute(this.opt.attrLabel) || n.value || '';//@@
     var m = d1.ins('input', '', {type: 'text', value: n.vLabel, className:'input-lookup'}, pop, this.inPop ? 0 : 1);
+    m.name = 'lookup-' + n.name;
+    m.required = n.required;
+    //n.required = false;
     if(n.id) {
-      m.required = n.required;
-      n.required = false;
       m.id = 'lookup-' + n.id;
-      m.name = 'lookup-' + n.name;
       if(n.title) m.title = n.title;
       d1.b('', '[for="' + n.id + '"]', '', function(lbl, e) { lbl.htmlFor = m.id; });
     }
