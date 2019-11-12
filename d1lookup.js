@@ -24,7 +24,7 @@ main = new(function() {
   
   this.seq = 0;
   this.win = null;
-  this.inPop = 1;
+  this.inPop = 0;
 
   this.init = function(opt) {
     var i;
@@ -42,13 +42,15 @@ main = new(function() {
     var pop = d1.ins('div','',{className:'pop'});
     n.parentNode.insertBefore(pop, n);
     if(!this.inPop) pop.style.verticalAlign = 'bottom';
+    n.thePop = pop;
     n.classList.add('bg-n');
     n.classList.add('hide');
     //n.type = 'hidden';
     n.vLabel = n.getAttribute(this.opt.attrLabel) || n.value || '';//@@
-    var m = d1.ins('input', '', {type: 'text', value: n.vLabel, className:'input-lookup'}, pop, this.inPop ? 0 : 1);
+    var mc = this.inPop ? pop : d1.ins('span', '', {className:'js-subinput'}, n, 1);
+    var m = d1.ins('input', '', {type: 'text', value: n.vLabel, className:'input-lookup'}, mc);
     m.name = 'lookup-' + n.name;
-    m.required = n.required;
+    //m.required = n.required;
     //n.required = false;
     if(n.id) {
       m.id = 'lookup-' + n.id;
@@ -59,10 +61,10 @@ main = new(function() {
     m.autocomplete = 'off';
     var i = null;
     if(n.getAttribute(this.opt.attrUrl)){
-      i = d1.ins('a', d1.i(this.opt.icon), {}, n, 1);
+      i = d1.ins('a', d1.i(this.opt.icon), {}, mc, 1);
       i.style.cursor = 'pointer';
+      d1.ins('', ' ', {}, mc, 1);
     }
-    d1.ins('', ' ', {}, n, 1);
     this.setHandlers(n, m, i);
   }
   
@@ -107,11 +109,11 @@ main = new(function() {
   this.openList = function(n, d, e){
     if(e) e.stopPropagation();
     this.closeList();
-    var pop = this.inPop ? n.previousSibling : n.vCap.previousSibling;
+    var pop = n.thePop;
     pop.appendChild(this.win);//.pop
     d1.setState(this.win, 1);
-    this.win.style.top = (this.inPop ? (n.vCap.offsetTop + n.vCap.offsetHeight) : pop.offsetHeight) + 'px';
-    this.win.style.left = '0';
+    //this.win.style.top = (this.inPop ? (n.vCap.offsetTop + n.vCap.offsetHeight) : pop.offsetHeight) + 'px';
+    //this.win.style.left = '0';
     this.build(n, d);
   }
   
