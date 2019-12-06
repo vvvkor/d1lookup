@@ -112,6 +112,7 @@ main = new(function() {
     var pop = n.thePop;
     pop.appendChild(this.win);//.pop
     d1.setState(this.win, 1);
+    d1.popFrom(n.vCap, this.win, 250, 200);
     //this.win.style.top = (this.opt.inPop ? (n.vCap.offsetTop + n.vCap.offsetHeight) : pop.offsetHeight) + 'px';
     //this.win.style.left = '0';
     this.build(n, d);
