@@ -59,8 +59,9 @@ main = new(function() {
     if(n.placeholder) m.placeholder = n.placeholder;
     m.autocomplete = 'off';
     var i = null;
-    if(n.getAttribute(this.opt.attrUrl)){
-      i = d1.ins('a', d1.i(this.opt.icon), {}, mc, 1);
+    if(this.opt.icon && n.getAttribute(this.opt.attrUrl)){
+      var ic = d1.ins('span', '', {className:'input-tools'}, mc, 1);//icons container
+      i = d1.ins('a', d1.i(this.opt.icon), {}, ic);
       i.style.cursor = 'pointer';
       d1.ins('', ' ', {}, mc, 1);
     }
