@@ -1,6 +1,6 @@
 {
   "name": "d1lookup",
-  "version": "1.2.25",
+  "version": "1.2.26",
   "description": "Autocomplete lookups with data from XHTTP request",
   "main": "d1lookup.js",
   "scripts": {
