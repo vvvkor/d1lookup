@@ -1,5 +1,12 @@
 # d1lookup
 
+**DEPRECATED**
+
+This is no longer maintained.  
+Please consider using [d1-web](https://github.com/vvvkor/d1-web) instead.
+
+---
+
 Add-on for [d1](https://github.com/vvvkor/d1).  
 Autocomplete lookups with data from XHTTP request.  
 [Demo & docs](https://vvvkor.github.io/d1#lookup)
